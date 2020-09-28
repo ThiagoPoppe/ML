@@ -1,0 +1,34 @@
+- Modelos simples ou complexos?
+  - Se a minimização do erro empírico tiver maior prioridade, então teremos uma
+    preferência à modelos mais complexos.
+  - Se o espaço de entrada estiver "embolado" então modelos mais complexos
+    poderão se sair melhor (mais camadas ocultas, kernel de maior grau, etc).
+
+- Seleção de modelos é encontrar um conjunto de hiper-parâmetros ótimos através
+  de validação.
+
+- O erro de treino é um erro enviesado, visto que o erro é dado nos mesmos dados
+  que constrõem o modelo. Como conseguir um erro menos enviesado? Nós separamos
+  os dados de treino em duas partes, treino e validação. Os dados de treino são
+  usados para construir o modelo; enquanto que os dados de validação são usados
+  para avaliar o modelo. A estimativa resultante é chamada de Eval, ou erro de
+  validação.
+
+- Dillema: Queremos que Eval seja aproximadamente Eout, e queremos que Eout seja
+  baixo. Então, queremos que T seja grande (mais dados levam a modelos melhores)
+  e queremos que V seja grande (mais dados levam a uma validação melhor). Porém,
+  a amostra é finita, ou seja, quanto maior T menor V e vice-versa.
+
+- Leave-one-out:
+  - T = n-1 exemplos e V = 1 exemplo
+  - Escolher um para ficar fora para todos os pares (X,y)
+  - Estimativa de erro = média dos erros nas instâncias deixadas de fora
+  - Eval é baixa, mas não aproxima bem Eout. Podemos cair em overfitting.
+
+- Para melhorar Leave-one-out podemos deixar um batch (um conjunto de dados) de 
+  fora, ao invés de 1 apenas. Com isso temos a validação Cross-validation, cuja
+  estimativa de erro será: Ecv = 1/k Sum_i_k (ei), onde ei é o erro a cada
+  iteração e 'k' é o número de batches.
+
+- O Cross-validation simula bem o Eout mesmo em casos de overfitting. Forma mais
+  segura de estimar com menos viés possível.

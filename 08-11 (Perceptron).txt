@@ -1,0 +1,24 @@
+Aprendizagem de Máquina - Anotações
+
+- Ein(h) -> Erro na amostra (error in sample), ou erro empírico
+  - Se Ein(h) é baixo então h pode ser uma boa hipótese
+  - Se Ein(h) é alto, esqueça esse h
+  - Note que, se Ein(h) for baixo não necessariamente h é bom
+
+- Eout(h) -> Erro fora da amostra (error out sample) ou Erro esperado (nunca iremos saber... estimamos o Eout através do Ein)
+  - Nesse caso, se Eout(h) for baixo, então h realmente é uma boa hipótese.
+
+- p[|Ein(h) - Eout(h)| > y] <= 2e^(-2*(y^2)*N) --> baixo y alto N, e vice-versa (P.A.C = probably approximately correct)
+
+- Não basta Ein ser proximo de Eout, devem ser próximos e Ein baixo. Senão, Eout será alto (coisa que não queremos).
+
+- MNIST -> ao inves dos digitos serem representados por 256 pixels, podemos usar simetria e intensidade, reduzindo a dimensão de 256 para 2.
+  - Capacidade do perceptron é maior com representações curtas. Representações longas são usadas em Aprendizagem Profundo.
+
+- Dado estruturado é quando conseguimos dar nomes significativos para as dimensões (simetria e intensidade ao invés de pixel1, 2, etc, por exemplo).
+
+- Para algoritmos mais complexos, a queda de Ein não necessariamente reflete uma queda no Eout. Para o perceptron que é um modelo simples, o Ein é
+  uma boa aproximação do Eout. No slide, Ein != 0 pois nosso dado não é 100% linearmente separável ou não treinamos por tempo suficiente.
+
+- The Pocket Perceptron: ao longo do treino, pegamos o menor Ein até então! Esse algoritmo também é chamado de minimização do erro empírico.
+  - Veremos que podemos chegar em situações de overfitting.

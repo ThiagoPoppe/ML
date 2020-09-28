@@ -1,0 +1,89 @@
+- Dados de entrada contêm apenas X para treinamento (sem rótulos, label)
+
+- Modelos Geradores: ao invés de predizer uma label de um dado, o objetivo agora
+  é modelar o dado de entrada, maximizando p(X) ao invés de p(Y|X).
+
+- O objetivo é aprender representações interessantes do dado de entrada.
+  Queremos uma função Theta tal que Theta(X) seja aproximadamente X (dado um
+  dado não estruturado, geramos um estruturado).
+
+- RBM = Restricted Boltzmann Machine
+
+- Modelando dados binários:
+  - Dado um conjunto de treino composto por vetores binários, queremos "fitar"
+    um modelo que irá atribuir uma probabilidade para cada vetor binário
+    possível.
+  - Objetivo: Construir um modelo que tenha alta probabilidade em dados de
+    treino; aprender a distribuição de probabilidade sobre um conjunto de input.
+  - Pode ser útil quando queremos monitorar sistemas complexos a fim de detectar
+    comportamento estranho.
+  - "Competidor" do PCA (redução de dimensionalidade não linear)
+
+- Um RBM é um grafo bipartido não direcionado composto por:
+  - Uma camada visível X = {x1, ..., xn} (ex.: filmes)
+  - Uma camada oculta  H = {h1, ..., hm} (ex.: fatores latentes)
+  - Uma unidade de bias em cada filme, assim como em uma MLP.
+  - Cada xi é conectado à todos hj's, onde um peso wij conecta xi à hj.
+
+- Explicar o que observo através de variáveis latentes, dado um X ele retorna
+  um H. O uso de variáveis latentes nos traz algumas vantagens, como: redução
+  da dimensionalidade do dado, um grande número de variáveis observadas podem
+  ser agrupadas em um modelo para representar um conceito.
+
+- Exemplo de variáveis latentes, ou ocultas, em economia: qualidade de vida,
+  felicidade e moral, etc. Essas são variáveis que não conseguimos mensurar
+  diretamente.
+
+- Boltzmann Machine = grafo completo; Restricted Boltzmann Machine = grafo
+  bipartido não direcionado!
+
+- Podemos inferir H -> X como também X -> H! E ai que é o pulo do gato... Iremos
+  minimizar a energia total do sistema baseado na nossa inferência de X dado H,
+  pois temos o X, logo conseguimos saber o nosso erro!
+
+- Energy: E(X,H) = Sum_i(Sum_j(w(ij)*hj*xi)) - Sum_i(ci*xi) - Sum_j(bj*hj)
+  - Note que não é Restricted
+- Distribution: p(X,H) = exp(-E(X,H))/Z (Z é um normalizador)
+  - Alta energia resulta em probabilidades baixas (sistema caótico)
+  - Baixa energia resulta em probabilidades altas (sistema previsível)
+
+- Inferências com RBMs:
+  - Computar p(X,H) é intratável com RBMs, pois Z é uma soma de todas as
+    possíveis configurações de E(X,H), possuindo assim tamanho exponencial de
+    configurações.
+  - Um outro tipo de inferência que é tratável é a inferência condicional:
+    - Não há interações entre xi's e hj's, visto que são condicionalmente
+      independentes, grafo bipartido.
+    - p(hj = 1|X) = sigmoid(bj + wj*X)   // "perceptron" com entrada X
+    - p(xi = 1|H) = sigmoid(ci + H^T*wi) // "perceptron" com entrada H
+
+- Loss function (negative log-likelihood ou log-probability):
+  - L(W) = 1/T Sum_t(-log(p(X_t)))
+  - Queremos maximizar p(X) ao invés de P(Y|X)
+  - A fase negativa do gradiente é intratável (soma exponencial!)
+  - Para conseguirmos proceder com SGD nós devemos aproximar o gradiente!
+
+- Treinamento de uma RBM:
+  - Constrastive Divergence Algorithm (ou CD-1):
+    - Aproxima o gradiente da log-likelihood.
+    - O algoritmo realiza a amostragem de Gibbs (i.e, amostrar X e depois H
+      iterativamente) e usar SGD.
+
+  - 1) Pegue um exemplo de treino X e compute as probabilidades p(hj = 1|X)
+       para todo hj.
+  - 2) Fazer hj = 1 com probabilidade p(hj = 1|X) e 0 com 1 - p(hj = 1|X).
+     - Passos 1 e 2 => Amostragem de Gibbs
+  - 3) Para cada aresta e_ij computamos o gradiente positivo P(e_ij) = xi * hj
+       (i.e., mensurar quando as duas unidades estiverem ligadas)
+  - 4) Reconstruir as unidades visíveis de maneira similar, computando as
+       probabilidades p(xi = 1|H) para todo xi, realizando novamente a
+       amostragem de Gibbs.
+  - 5) Para cada aresta e_ij computamos o gradiente negativo N(e_ij) = xi * hj.
+       Obs.: esse xi é no X construído!
+  - 6) w_ij <= w_ij + r * (P(e_ij) - N(e_ij))
+
+- Podemos reconstruir várias vezes, mas por questões práticas e convenientes 
+  fazemos apenas 1 vez.
+
+- CD-k => quantas k vezes iremos repetir Gibbs. CD-1 é o que dá o melhor
+  resultado (geralmente).

@@ -1,0 +1,60 @@
+- Se avaliamos o modelo usando os dados de treino, nós temos o erro de treino, ou também conhecido
+  como risco empírico (empirical risk); já o erro de teste é conhecido como risco esperado
+  (expected risk).
+
+- Capacidade: é definida pelo maior 'n' tal que exista um conjunto de exemplos Dn de tal forma
+  que o modelo sempre encontre um 'f' que dê as respostas corretas para todos os exemplos de Dn.
+  Por exemplo: para o conjunto de funções lineares (y = ax + b), dado em d dimensões, a sua
+  capacidade é d+1.
+
+- Capacidade é relacionada com o tamanho do modelo. No caso de árvores de decisão, temos a
+  profundidade da árvore. Com isso, maior capacidade menor erro empírico.
+
+- Capacidade também está relacionada com o erro empírico ser uma boa aproximação do erro esperado.
+  - Capacidade extremamente baixa leva à uma boa aproximação dos dois... Porém o erro empírico
+    será alto.
+
+- Em outras palavras, temos que baixa capacidade reflete em underfitting; e alta capacidade
+  reflete em overfitting.
+
+- Bias (viés): erro devido ao fato de que o conjunto de funções (hipóteses) não contém a função
+  alvo. Em outras palavras, as funções geradas são muito restritas.
+
+- Variância: erro devido ao fato de que se estivemos usando um outro conjunto de treino da mesma
+  distribuição, nós encontrariamos uma outra função. Em outras palavras, as funções não se saem
+  bem em dados que não são parecidos com os dados de treino.
+
+- Viés tem uma relação muito grande com underfitting; já variância com overfitting.
+
+- Com o aumento da capacidade, os erros devido ao viés caí, devido à construção de modelos mais
+  específicos; e os erros devido à variância aumenta, pelo mesmo motivo citado anterioremente.
+
+- Regularização: busca minimizar o erro empírico contanto que ele ainda seja uma boa aproximação
+  do erro esperado. Todo modelo ML deve ter um regularizador. Retrata um trade-off entre acurácia
+  e complexidade.
+
+- Navalha de Occam: dado a escolha entre duas coisas com o mesmo erro empírico, escolha aquela
+  mais simples, ou seja, que melhor aproxima o erro esperado.
+
+- Modelos mais simples convergem rapidamente em um ponto que não é bom; já funções complexas,
+  para termos uma aproximação boa, devemos ter vários dados de treino.
+
+- Regularização para árvores de decisão:
+  - argmin Ein(T) + L*O(T), para todas as T árvores possíveis.
+  - O(T) é o nosso regularizador. Nesse caso, podemos usar o número de folhas de T.
+    Quanto mais folhas nosso modelo tiver, mais complexo ele será.
+  - L é um parâmetro que indica o trade-off entre erro empírico e simplicidade.
+
+- Para um Perceptron, nosso regularizador poderia ser o número de épocas, por exemplo.
+- Em resumo, regularizadores minimizam a função de perda penalizando modelos mais complexos.
+
+- Princípio de Indução: visto que não conseguimos minimizar o erro esperado diretamente,
+  utilizamos uma outra métrica na qual podemos minimizar. No nosso caso, essa métrica até então
+  vem sendo o erro empírico.
+
+  - Minimização do risco empírico (erro empírico):
+    - O princípio de indução mais simples, consistindo em minimizar a perda no conjunto de treino
+      (erro de treino).
+  - Minimização do risco estrutural:
+    - Uma alternativa, que geralmente consiste em utilizar um regularizador para penalizar
+      modelos mais complexos.

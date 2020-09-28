@@ -1,0 +1,31 @@
+- Ao contrário do Perceptron, Árvores de Decisão não são modelos lineares devido ao fato dos resultados não serem dados através da combinação linear de
+  pesos e atributos.
+
+- Era muito mais fácil simples e rápido treinar SVM do que Redes Neurais.
+
+- # de árvores de decisão é exponencial no # de atributos (podemos reordenar as perguntas de qualquer forma).
+- Como construimos uma árvore boa? (A ótima é NP-Completo)
+  - Heurística: Construimos a árvore pergunta após pergunta (atributo após atributo), escolhendo aquele que 
+    melhor separa os dados em todos positivos e todos negativos (idealmente).
+    - O cálculo será dado pela entropia definida por: H(fp, fn) = -fp*log(fp) - fn*log(fn), onde fp = p/(p+n) e fn = n/(p+n);
+    - Um atributo A, divide o conjunto de treino em k subconjuntos (S1, S2, ..., Sk).
+    - A entropia esperada após a partição utilizando o atributo A será: EH(A) = Sum (i=1 até k) ((pi+ni)/(p+n)) * H(pi/(pi+ni), ni/(pi+ni)).
+    - A informação ganha é dada por: I(A) = H(fp, fn) - EH(A), onde fp = p/(p+n) e fn = n/(p+n).
+    - Escolheremos o atributo com maior I.
+
+    -> log é na base 2!
+
+- Podemos usar uma árvore binária, pois com ela conseguimos criar árvores n-árias. Minimizando a entropia.
+- Atributos podem ser usados novamente ou não, depende do algoritmo!
+
+- Quando paramos de crescer a árvore de decisão?
+  - Podemos parar de crescer enquanto as folhas forem vazias
+  - Ou até que as folhas sejam puras (erro empírico igual a 0). Isso nos leva a árvores com várias folhas que contém pequenas amostras.
+    Podemos obter um baixo erro empírico aparente, mas generaliza pouco, o que resulta em um alto erro esperado (overfit, decoramos e não generalizamos).
+
+- Overfittin: onde o erro empírico não é mais uma boa aproximação do erro esperado.
+- Underfittin: o erro empírico ainda é uma boa aproximação do erro esperado, porém é alto por ser um modelo muito simples.
+
+- Alternativas:
+  - Early stop, não temos a garantia que mais para baixo conseguiriamos uma árvore melhor
+  - Post prunning, crescemos a árvore indefinidamente e depois realizamos podas onde não teve muita melhoria (melhor que a early stop mas mais cara)

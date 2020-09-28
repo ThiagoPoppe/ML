@@ -1,0 +1,56 @@
+- NLP = Natural Language Processing
+
+- Feature Theory: o significado é dado como um conjunto de características
+  semânticas. Isso é bom para explicar similaridades entre conceitos que possuem
+  significados similares.
+
+- Structuralist Theory: o significado de um conceito reside na sua relação com
+  outros conceitos (wordnet). Então, diferentes significados podem ser
+  expressados em um grafo relacional.
+
+- Podemos usar ambas teorias em conjunto. Podemos representar significado com um
+  vetor de "semantic features". As features que representam o significado de um
+  conceito são calculadas baseada na sua relação com outros conceitos.
+
+- One-hot encoding: uma representação básica de uma palavra usando um "word ID".
+  Esse vetor é preenchido por 0's, com excessão de um 1 na posição associada
+  ao ID dessa palavra. O problema é que o one-hot encoding não faz nenhuma 
+  suposição sobre a similaridade da palavra, exemplo: ||e(w1) - e(w2)||^2 = 0 se
+  w1 = w2; ||e(w1) - e(w2)||^2 = 2 se w1 != w2. Todas as palavras são igualmente
+  diferentes. (Além do problema de dimensionalidade)
+
+- Representação distribuída: não mais representa a palavra como no anterior, mas
+  sim representa o significado da palavra. Teremos vetores pequenos e densos
+  para cada palavra, que dirá por exemplo o quão "animal" uma palavra é.
+
+- Cada palavra corresponde a um ponto no espaço de features, de forma que
+  palavras similares tendem a ficar mais próximas nesse espaço. Uma sequência
+  de palavras pode ser transformada em uma sequência desses feature vectors
+  aprendidos.
+
+- Uma rede neural irá aprender a como mapear essa sequência de feature vectors
+  para um predicado de interesse, assim como a distribuição de probabilidade 
+  da próxima palavra da sequência.
+
+- Preprocessamento extremamente necessário em NLP:
+  - Pegue o dado "raw", e escreva ele de uma outra forma na qual seja mais
+    conveniente para uma rede neural processar.
+  - Tokenização: Longa String -> lista de token strings
+    - Exemplo: "He's spending 7 days in San Francisco.", um token seria a
+      palavra San Francisco (mesmo sendo composta de 2 palavras).
+    - Podemos lematizar, ou seja, colocar tudo em uma forma padrão! Por exemplo,
+      números viram "NUMBER", verbos ficam no infinitivo, etc.
+    - No final de tudo, formamos um vocabulário de palavras que mapeia palavras
+      lematizadas para um id único!
+
+- Cada palavra w é associada com um vetor C(w), onde queremos que a distância
+  ||C(w1) - C(w2)|| reflita o significado da similaridade entre essas duas
+  palavras.
+
+- Ao longo do treinamento da rede, ela não adapta apenas os pessoas das camadas
+  ocultas, mas também as representações!
+
+- Uma hipótese que é frequentemente usada é a hipótese de Markov, onde:
+  p(w1, w2, ..., wt) = p(w1) * p(w2|w1) * ... * p(wt|w(t-1), ..., w1), ou seja,
+  a t-ésima palabra é gerada dado as t-1 palavras anteriores. Nós iremos nos 
+  referir à isso como sendo o contexto.

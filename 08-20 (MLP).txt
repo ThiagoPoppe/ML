@@ -1,0 +1,49 @@
+- Classificador de regressão logística: Perceptron cuja função de ativação é uma sigmoid.
+  Podemos interpretar que um neurônio está estimando p(y = 1|X). Se maior que 0.5 falamos que é 1.
+
+- Quando temos vários neurônios conectados, a regra Delta para de valer, pois não sabemos qual 
+  neurônio conduziu a uma resposta errada. Com isso, teremos o Gradiente, que indica quais
+  dimensões devemos diminuir ou aumentar. O Gradiente é a derivada parcial de L com relação aos W.
+
+- Uso da sigmoid como função de ativação nos dá o benefício de que sua derivada é dada em termos
+  da própria função! sig'(x) = sig(x)*(1 - sig(x)).
+
+- Com isso, temos:
+  - Regra Delta: Xi * (sig(WtXi) - yi)
+  - Inclinação:  sig(WtXi)*(1-sig(WtXi))
+
+- Gradiente Descendente:
+  - Inicializar W (de forma aleatória, por ora)
+  - Computar as derivadas parciais de L
+  - Atualizar os pesos. W <- W - r * D(Lw) [muito caro para conjuntos de treino grandes]
+  - Repetir os passos 2 e 3 até que uma condição seja satisfeita.
+
+- Devemos plotar L(W) a cara iteração. Se L(W) estiver convergindo, então o learning rate está
+  bom; se estiver divergindo, o learning rate está muito alto! Porém, se escolhermos um learning
+  rate muito baixo, iremos ter uma convergência muito baixa.
+
+- Uma condição de parada pode ser quando a diferença entre Wi e "Wi-1" não for maior e um certo
+  epsilon, por exemplo 10^-5.
+
+- Esse algoritmo necessita de "feature scaling", pois, as dimensões podem estar utilizando
+  diferentes medidas. As vezes andar 0.1 em uma dimensão é pouco e em outra é um valor absurdo.
+  - Esse scaling é da forma xi' = (xi - min(xi)) / (max(xi)-min(xi))
+
+- SGD = Gradiente Descendente Estocástico (acúmulo de erro ao longo de batch)
+  - Soma do erro é dado no tamanho do batch (mini-batch SGD)
+- Outra melhoria é diminuir a taxa de aprendizado a medida que vemos mais dados.
+
+- Regularização de MLP:
+  - O(W) = ||W||
+  - Ou seja, nossa normalização será dada pela norma dos pesos, previndo pesos altos.
+  - Isso é bom, visto que, se os pesos são altos, uma pequena variação em X resulta em uma grande
+    variação em Y. Em outras palavras, a saída vai ser muito sensível a pequenas mudanças
+    da entrada (entradas similares serão associadas à diferentes saídas).
+
+- Early stopping (não necessariamente levará à generalização):
+  - Separamos os dados de treino em treino e validação (cross-validation).
+  - Minimizamos L(W) utilizando os dados de treino e paramos quando L(W) para de sofrer alterações
+    significativas no conjunto de validação.
+
+- A camada em uma rede neural irá pegar os dados e reconfigurar os mesmos afim de torná-los
+  linearmente separáveis! Exemplo da XOR, onde temos ao invés de x1 x2 -> AND(~x1,x2) AND(x1,~x2).

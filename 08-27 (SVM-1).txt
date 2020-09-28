@@ -1,0 +1,66 @@
+- Conceito de Margem:
+  - Distância dos pontos "extremos" de cada classe associada ao perceptron, de
+    tal forma que nenhum dado de treino esteja dentro desse range.
+  - Vapnik associa o tamanho da margem com a confiabilidade e com o quão
+    generalizável um perceptron é.
+  - Separador de Margem Máxima ou Perceptron de Margem Máxima dá origem ao
+    algoritmo SVM (Support Vector Machines).
+
+- Intuição da margem máxima: criar uma perturbação nos pontos (circular), onde
+  o máximo resultará em um perceptron que não consegue se "mover", sendo assim,
+  suportado pelos vetores. Com isso, temos que a margem p = 2*R, onde R é o raio
+  desses círculos criados por conta da perturbação dos pontos.
+
+- Dimensão VC:
+  - L(h)_test <= L(h)_train + O(sqrt(VC(h)/n))
+  - VC(H) será o número máximo de pontos que h pode "despedaçar" (shatter).
+    Despedaçar, ou shatter, significa achar um modelo h que separa 'p' de 'n'.
+  - A dimensão VC é uma forma de calcular a capacidade de um separador SVM.
+  - Um Perceptron consegue despedaçar 3 pontos em um espaço 2D. Acima disso, um
+    Perceptron não consegue despedaçar em um espaço 2D. Porém, em um espaço 3D
+    ele consegue despedaçar 4 pontos. Com isso, temos que a dimensão VC aumenta
+    com a dimensionalidade. No geral, para Perceptrons VC(h) = d+1, onde d é a
+    dimensão da entrada.
+
+- O SVM procura minimizar o erro empírico (idealmente 0) enquanto utiliza a
+  dimensão VC como um regularizador!
+
+- A margem depende da escala dos dados. Ou seja, "encaixamos" a menor esfera
+  que contém todos os exemplos de pontos. Com isso, temos alguns conceitos:
+  - Margem relativa: p / D, onde p = margem e D = diâmetro da esfera
+  - Vapnik mostrou que a dimensão VC(h) é incalculável. Com isso, usaremos um
+    limite superior para a mesma: VC(h) <= min(d, teto(D^2/p^2))
+  - Com isso, se minimizarmos D^2/p^2 ou simplesmente maximizar p, VC(h) se
+    torna independente da dimensionalidade dos dados.
+  - Conclusão: maximizar a margem de um SVM é uma boa ideia!
+
+- Quando D^2/p^2 for menor do que d, temos que o SVM irá generalizar mais do que
+  o Perceptron, cujo VC(h) = d+1.
+
+- Margem pequena reflete em vários separadores, com isso, capacidade alta e
+  aumento no espaço de busca; já margem alta reflete em poucos separadores,
+  capacidade baixa e diminuição do espaço de busca.
+
+- Como calcular o SVM?
+  - Suponha um vetor w que é perpendicular à margem de decisão e que nós não
+    sabemos seu tamanho.
+  - Suponha um vetor u que também não sabemos o valor.
+  - Se w . v + b >= 0, onde b é um threashold (viés), temos +; senão -.
+
+- No exemplo que temos classes +1 e -1 temos:
+  - yi * (w * xi + b) >= 1, onde yi = 1 se xi==1 e 0 se si == -1
+
+- Em conclusão, temos que p = 2/||w||, ou seja, a margem é pode ser dada pelo
+  vetor de pesos.
+
+- Como queremos maximixar a margem, temos:
+  - max 2/||w|| = max 1/||w|| = min ||w|| = min ||w||^2 = min 1/2 ||w||^2
+  - Então, queremos min 1/2 ||w||^2 contanto que todos os pontos estejam do
+    lado correto (restrições).
+  - A margem é um regularizador, como dito anteriormente.
+
+
+- Para resolver essa minimização, podemos usar programação quadrática que pode
+    ser resolvida utilizando multiplicadores lagrangianos.
+- QP (programação quadrática): Temos uma soma de termos quadráticos dado
+    restrições lineares.

@@ -1,0 +1,91 @@
+- L = argmin_w max_a f(w) + Sum_i(ai*gi(w))
+- L = 1/2 ||w||^2 - Sum_i(ai * (yi * (w * xi + b) - 1))
+- dL/dw = w - Sum_i(ai * yi * xi) -> w = Sum_i(ai * yi * xi)
+
+- Com isso, temos que w é dado por uma combinação linear dos vetores de entrada.
+
+- Assim sendo, temos que L = Sum_i(ai) - 1/2 Sum_i(Sum_j(ai*aj*yi*yj*xi.xj))
+  - Se xi for positivo, então ai >= 0
+  - Se xi for negativo, então ai  < 0
+  - Apenas os vetores de suporte possuem coeficientes 'a' não-nulos.
+  - Concluindo, queremos minimizar L para achar os 'a' ótimos
+
+- Para dados linearmente separáveis o SVM é ótimo, devido a sua construção.
+  Porém, podemos ter ruído (noise) ou features ruins. Com isso, a nossa margem
+  fica comprometida. (Podemos até cair em overfit...)
+
+- Até que ponto deveriamos ignorar os pontos "errados", ganhando assim um
+  separador com margem muito maior porém com erros?
+
+- Para dados que podemos assumir separação linear (mesmo que com ruído), a
+  solução é uma. Existem dados onde a separação não é linear, como no caso do
+  exemplo do círculo! Para isso, assumimos outra solução.
+
+- Primeiro caso:
+  - Introduzimos "slack variables", ou variáveis de folga (ei >= 0)
+  - Sendo assim, passamos a minimizar 1/2 ||w||^2 sujeito a yi(w.xi+b) >= 1-ei
+  - ei <= 1 os pontos ainda estão do lado certo, porém ultrapassaram a margem.
+  - ei > 1 os pontos estão agora no lado errado.
+  - Para minimizar o erro de treino também queremos minimizar Sum_i(ei).
+  - Finalmente teremos:
+    - min 1/2||w||^2 + C * Sum_i(ei)
+    - sujeito a: yi(w.xi + b) >= 1 - ei, para todo i
+  - Em outras palavras, a constante/hiperparâmetro C é um trade-off entre
+    margem e erro. Se abrirmos mão do erro empírico teremos uma margem grande;
+    se não abrirmos mão teremos uma margem pequena e um possível overfit.
+
+- Segundo caso:
+  - Teremos que mudar o espaço dos dados, aumentando a dimensão dos mesmos.
+  - Iremos realizar uma ideia similar feita pelas redes neurais (caso da XOR),
+    através do Kernel.
+  - Para o caso do círculo, teriamos x3 = f(x1,x2) = x1^2 + x2^2. No caso,
+    elevariamos os pontos em azul (mais externos) tornando os pontos azuis e
+    vermelhos linearmente separável, ou próximo disso.
+  - Chamaremos o kernel de phi que seria o mapeamento não-linear dos pontos em
+    uma dimensão maior. Note que, nesse exemplo, a separação é linear em 3D mas
+    não-linear em 2D.
+
+- Uma função Kernel deve permitir ida e volta!
+- Na prática, não testamos os kernels, mas sim associamos um kernel com cada
+  aplicação. Por exemplo o kernel Radial Basis é usado ao se aplicar SVM em
+  imagens; já um kernel polinomial é usado ao se aplicar SVM em texto.
+
+- SVMs lineares são similares ao Perceptron, mas com uma função de custo ótima!
+  O SVM é o melhor dos Perceptrons.
+
+- Se usarmos uma função kernel em um SVM, isso é comparável com uma rede neural
+  de 2-camadas. Mas note que na rede, essa função já faz parte da mesma,
+  enquanto que no SVM é um hyperparâmetro. Logo, uma rede neural pode achar
+  uma separação melhor que o Kernel.
+
+- Uma das vantagens de se usar um kernel está no fato de estarmos encurtando
+  o treinamento do modelo, uma vez que informamos para o mesmo a função, através
+  de algum conhecimento prévio da área, sem precisar de dados de treino para tal.
+
+- Na rede neural essa função também faz parte da predição da rede... Se dermos
+  poucos dados de treino o SVM se sai melhor; caso contrário a rede pode se sair
+  melhor.
+
+- Geralmente não se é feito, mas podemos após a camada oculta de uma rede neural
+  aplicar um SVM, visto que a camada oculta encontra tal "kernel" que torna os
+  dados linearmente separáveis.
+
+- SVMs foram desenvolvidos na ordem inversa. Enquanto que em redes neurais se
+  teve um caminho heurístico e depois houve um esforço para melhorar o
+  entendimento e teoria dos mesmos; os SVMs tiveram primeiro a teoria bem
+  consolidada atráves de limites, dimensão VC, maximização da margem, e depois
+  se implementou o algoritmo que conhecemos hoje em dia.
+
+- Uma vantagem significativa do SVM é que ele não usa backpropagation. Sendo
+  assim, não temos o problema de cair em um mínimo local, pois a solução do
+  SVM é global e única!
+
+- Ao contrário de redes neurais, a complexidade computacional de um SVM não
+  depende da dimensionalidade do dado, pois a sua dimensionalidade VC pode ser
+  menor do que o mesmo. Lembrar que: VC(h) = min(d, teto(D^2/p^2)).
+
+- A razão de SVMs terem melhor performance do que redes neurais é que na prática
+  eles são menos propícios à overfitting.
+
+- Com relativamente muitos dados, prefere-se o uso de Redes Neurais ao invés de
+  SVMs.

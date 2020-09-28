@@ -1,0 +1,27 @@
+- Rede neurais de múltiplas camadas fazem, essencialmente, uma aprendizagem na representação dos dados.
+- Fully-connected = todos os nodos são conectados
+
+- No exemplo da XOR, um neurônio da Hidden Layer seria o AND(~x1,x2), o outro seria AND(x1,~x2).
+
+- Redes de 1 camada apenas modela hiperplanos lineares
+- Redes de 2 camadas são chamadas de aproximadores universais de função. Dado um número infinito de 
+  "hidden units", ela consegue expressar qualquer função contínua.
+- Redes de >= 3 camadas conseguem fazer o mesmo, porém com menos nodos e pesos. Sendo assim, mais rápida
+  e menos proprícia a resultar em um overfitting.
+
+- f(X) = sig(Sj(wj * hj)), hj = sig(Si(wij * xi))
+- Hidden units h'js podem ser vistas como novas "features" a partir da combinação dos x'is, ou seja,
+  múltiplas regressões logísticas.
+
+- O algoritmo terá duas etapas. A "ida" (cálculo de erro) e a "volta" (retropropagar os erros). Temos
+  assim, o algoritmo de Backpropagation.
+
+- Regra delta: w(i+1) = w(i) + m * w(i-1) + r * d * x
+  - m -> momentum (previne mínimos locais)
+  - r -> taxa de aprendizagem
+  - d -> gradiente
+
+- Backpropagation adora mínimos locais. Para evitar isso, precisamos de uma amostra de dados extremamente
+  grande, o que é inviável.
+- Um outro problema é o desaparecimento do gradiente... Ele vai perdendo o "efeito" (valor) ao longo da
+  retropropagação!

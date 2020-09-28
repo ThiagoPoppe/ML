@@ -1,0 +1,19 @@
+- Iremos entregar a imagem pura, e a rede através de convoluções e pooling irá
+  entregar as features encontradas na imagem para uma rede neural. Isso reduz
+  drasticamente a dimensionalidade dos dados e provê uma invariância local, ou
+  seja, é menos sensível à pequenas perturbações.
+
+- Uma caixa pequena (ou filtro) passa por toda a imagem. Podemos pensar nisso
+  como uma busca, onde iremos buscar na imagem algo similiar ao filtro. Sendo
+  assim o filtro também é uma imagem.
+
+- Filtros também são parâmetros que queremos aprender!
+
+- Exemplo: Camada 1 => linhas simples e bordas; Camada 2 => algumas texturas
+  e formatos; Camada 3 => Formas; Camadas 4/5 => Cachorros, flores, etc.
+
+- Definimos se usaremos 100 filtros, 1000 filtros, etc.
+- Matriz de convolução = matriz de pesos = kernel/filtro de convolução
+
+- Matriz de convolução lembrar como se fosse uma matriz de correlação, e o max
+  pooling como a extração de áreas com maior correlação.
