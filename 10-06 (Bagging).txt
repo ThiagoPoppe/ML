@@ -1,0 +1,34 @@
+- Bootstrap Aggregation:
+  - Dado um conjunto de treino D
+  - Gerar 'm' novos conjuntos de treino Di por amostragem uniforme com
+    reposição (alguns exemplos podem ficar duplicados em cada Di)
+  - Esse tipo de amostragem é chamada de Bootstrap.
+
+  - Dado conjuntos de treino D1, D2, ..., Dm
+  - Aprenda um modelo Mi para cada Di
+  - Cada modelo Mi dá uma estimativa não enviesada (evitar overfitting)
+  - Modelo final M será uma média de todos os modelos.
+  - Isso é conhecido como model aggregation.
+
+- Bagging torna o ensemble menos propício ao overfitting. A intuição é que
+  estamos tirando a média de modelos que não viram todo o dado, sendo
+  impossível decorar D. Mi pode decorar Di (uso de regularizadores melhora).
+
+- Bagging torna o modelo muito robusto à variação do dado! A própria construção
+  já torna isso possível!!
+
+- Muito comum em bagging (assim como hoje em boosting), a criação de ensembles
+  baseadas em árvores de decisão, por exemplo o Random Forest. Usamos bagging
+  quando uma árvore de decisão não é tão provável de ser a melhor escolha, mas
+  a combinação de múltiplas levam à uma performance melhor.
+
+- Para dar a resposta, damos a mesma entrada "v" para cada uma das árvores.
+  Usamos então a média das respostas. p(c|v) = 1/T sum_i_T(pi(c|v)).
+
+- Random Forests:
+  - Explora duas fontes de aleatoriedade.
+  - Boostrap sampling
+  - Escolha aleatória de features (sqrt(n) features). Essa ideia é para fazer
+    com que as árvores produzidas não se tornem correlacionadas.
+  - Basicamente, random forests corrigem o hábito de overfitting das árvores
+    de decisão, podendo assim usar árvores mais complexas.

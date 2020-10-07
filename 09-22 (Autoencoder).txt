@@ -1,0 +1,41 @@
+- Diferente do RBM, computamos gradiente sempre, usando assim o backpropagation
+
+- Tanto a camada de entrada como a de saída teremos o mesmo número de atrib.
+- H(x) pega o x e retorna algo similar ao x (que seria o ^x)
+
+- Minimiza o erro de reconstrução! Comparar se ^x == x, queremos que seja o
+  mínimo igual. Camada oculta = encoder, camada de saída = decoder. Rede fully
+  connected.
+
+- Conseguir representação alternativa perdendo o mínimo de informação.
+
+- Tanto para entradas binárias ou reais, o gradiente é o mesmo e é simples, 
+  sendo dado por ^x(t) - x(t). Calculamos o erro e usando backprop.
+
+- Undercomplete: camada oculta menor que camada de entrada, conseguimos
+  comprimir sem perder informação. Queremos uma representação menor, mas tem um
+  limite, pois a partir dele iremos perder mais e mais informação.
+
+- Overcomplete: camada oculta maior que camada de entrada, muito fácil de 
+  decorar a entrada! Só é útil quando queremos aprender a representação mais
+  robusta à ruído. Aprender uma representação que seja mais tolerante à ruído.
+  Criação de denoising autoencoder.
+  - Adicionamos um ruído em x, criando uma nova camada ~x! O que a rede vê
+    como entrada é ~x, mas o erro é comparado com o vetor original (x)! Rede
+    está tirando o ruído dos dados!!
+
+- MNIST dígitos: como adicionar ruído? Rotacionar, transladar, modificar a 
+  transformação do dígito (não modificando o dígito em si, 5 ainda é 5). Hoje
+  em dia isso é uma forma de data augmentation! Não temos dados "novos" mas os
+  mesmos dados só que com ruído.
+
+- Contractive autoencoder:
+  - Evitar representações não interessantes (overfitar representações)
+  - Penalização: similaridade que vemos na camada oculta e na camada de entrada
+  - Penalização funciona como um regularizador (mesmo sendo não-supervisionado)
+
+- Podemos empilhar autoencoders para solucionar o problema da perda de gradient
+  em MLPs de múltiplas camadas. Os pesos agora não estão aleatórios! As camadas
+  já foram treinadas antes. Ainda assim a volta é enfraquecida, mas os pesos
+  anteriores já são bons (pré-treino), apenas estamos tunando eles.
+- Stacked autoencoders; Deep Belief Network (ideia similar usando RBM).

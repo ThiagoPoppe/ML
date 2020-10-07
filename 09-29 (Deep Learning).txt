@@ -1,0 +1,43 @@
+- Pre-training (stacked autoencoders) + fine-tuning (final classification)
+
+- Quando usamos mais de uma camada, há a sumiço de gradiente (o gradiente
+  fica cada vez mais fraco quando voltamos na rede).
+
+- Quando usamos mais camadas (sem pre-treino), a função de perda se torna
+  cada vez menos e menos convexa. O minimo global fica mais dificil de ser
+  encontrado, há mais minimos locais (random entry). A forma como inicializamos
+  os pesos é muito importante (pre-treino provavelmente irá inicializar em um
+  lugar considerado bom)!
+
+- É muito melhor temos muitas camadas do que uma camada com muitos neurônios.
+  Com menos neurônios temos menos pesos!
+
+- Learning models with multiple layers of representation:
+  - Mais comum é utilizar o stacked denoising autoencoders (pre-training).
+  - Regularização é empírica, não adicionamos uma penalidade.
+  - Gradientes robustos (ReLU - Rectified linear units).
+  - Cada camada corresponde à uma representação distribuída. Biologia: um
+    estímulo específico é codificado pelo seu padrão único de atividade sobre
+    um grupo de neurônios. Cada unidade/neurônio vê uma feature separada da
+    entrada, e não são mutuamente exclusivos.
+
+- Unsupervised pre-training:
+  - Treine uma camada por vez, de forma independente, da primeira para a última
+    (com autoencoder ou RBM), empilhando elas.
+  - Mantenha/congele os pesos de cada camada, não deixar o backprop continuar.
+  - Camadas anteriores são vistas como feature extraction (como os kernels).
+
+- Fine-tuning:
+  - Uma vez que todas as camadas estiverem pre-treinadas, adicionamos uma
+    camada de saída e treinamos a rede inteira utilizando aprendizado super-
+    visionado (com a função de perda apropriada).
+  - Aprendizado supervisionado usando backprop.
+  - Todos os pesos serão tunados para a tarefa supervisionada, a representação
+    será ajustada para ser mais discriminativa, conseguindo uma convergência
+    mais rápida.
+  - O processo relembra do aprendizado semi-supervisionado (mas é mais
+    específico para transferência de aprendizagem?). Não é legal colocar no
+    mesmo saco por fazerem coisas diferentes, mas tudo bem.
+
+- Redes com menos camadas precisam de mais neurônios; com mais camadas precisam
+  de menos neurônios (mais camadas tendem a ter menos erro).

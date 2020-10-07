@@ -1,0 +1,64 @@
+- Dropout:
+  - Feito durante a parte de fine-tuning.
+  - Combinar múltiplas arquiteturas (como explorar 2^h arquiteturas).
+  - Aleatóriamente desliga uma parte dos neurônios com uma prob. 'v'.
+  - Impede que a rede decore dado! Por isso que o dropout é um regularizador.
+  - Essa técnica reduz co-adaptações complexas dos neurônios, pois um neurônio
+    não consegue mais se suportar pela presença dos demais.
+  - Sem dropout, nossa rede pode substancialmente exibir overfitting; porém, o
+    dropout dobra (roughly) o número de iterações necessárias para convergir.
+
+- Vantagens de Deep Learning:
+  - Salva tempo e é escalável no futuro, pois feature engineering na mão é
+    vista por alguns como sendo uma solução de curto prazo.
+  - As features apreendidas as vezes são melhores do que as features dadas
+    pelo melhor hand-engineered features, e podem ser muito complexas a ponto
+    de tomar muito tempo para fazer a engenharia.
+  - Podemos usar dados não rotulados para pre-treino.
+  - Empiricamente, destruíram todos os benchmarks!
+
+- Boosting:
+  - Usar modelos mais simples, não usando apenas 1
+  - Os modelos mais fracos são treinados em conjunto
+  - "Does a crowd is smarter than an individual in the crowd?"
+  - Algoritmo simples!
+
+  - Um modelo forte seria aquele que reside nas extremidades; já um fraco 
+    reside na redondeza dos 50% de certeza (melhor que jogar moeda).
+  - As respostas dos classificadores mais fracos são combinadas através da
+    votação (boosting aditivo). Um classificador pode estar errado, mas podemos
+    ter 2 certos! Acertando a resposta.
+
+  - h*(X) = sign(h1(X) + h2(X) + h3(X)) [Boosting aditivo]
+  - O que ocorre se h1, h2 e h3 são independentes?
+    - Teremos um cenário perfeito!! Apenas 1 irá errar por vez.
+    - Mas os classificadores são dependentes... :(
+    - O boosting então tenta minimizar a dependência dos classificadores.
+
+   - O boosting opera em iterações, gerando os modelos em sequência, para
+     minimizar a dependência dos modelos. Os erros de h1 serão o foco do h2
+     e assim por diante (uma boa ideia é usar árvores de decisão). Essa é a
+     forma como o modelo AdaBoosting funciona.
+
+   - Em teoria podemos fazer boosting para qualquer algoritmo simples. Mas,
+     as árvores de decisão são o estado da arte. Mais precisamente, usamos
+     Decision Stumps, que são árvores de 1 nó apenas. Com isso elas são rápidas
+     simples e fácil de programar, tem poucos parâmetros e são classificadores
+     muito simples que com certeza não irão overfitar os dados.
+
+- AdaBoost (adaptive boosting):
+  - Inicialmente todos os pontos tem o mesmo peso, o somatório tem que ser 1
+  - Como mudar os pesos? Como calcular alpha? Como escolher os mod. fracos?
+  - h*(X) = a1*h1*(X) + a2*h2*(X) + ... Sendo assim, alguns classificadores
+    se tornam mais importantes do que outros!
+  - Com o acrescimo de classificadores fracos, o erro tende a cair sempre,
+    por usar Stumps (não temos overfit); o XGBoost (extreme boosting) teremos
+    isso também se as árvores, com regularizadores, não overfitar!
+
+  - wi_1 = 1/n
+  - Loop:
+    - Pick ht (stump) that minimizes o erro empírico na iteração t
+    - Calculate at
+    - Calculate wi_t+1
+  - Until the empirical error is near 0
+  - Legal por não usar regularizador! Por ser stump, não teremos overfit!!!
