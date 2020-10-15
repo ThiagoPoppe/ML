@@ -1,0 +1,16 @@
+- Debugar um modelo ML.
+
+- Explicabilidade por importância de feature.
+
+- Pode ser por quantas vezes o modelo usou aquela variável, ou o mais importante
+  é o quanto que ela contribui pro modelo acertar (podem ser variáveis diferentes)
+
+- Propriedades de uma boa explicação:
+  - Consistência, sempre que mudarmos um modelo, de forma que ele use mais de uma
+    característica, então a importância dela pelo menos não pode cair.
+  - Acurácia, a soma de todas as features importances deve dar a importância total
+    do modelo.
+
+- SHAP: enxerga o modelo como um time, onde cada característica é um jogador.
+
+- 
