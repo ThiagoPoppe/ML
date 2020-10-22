@@ -1,0 +1,26 @@
+- Naive Bayes (Introdução para Aprendizagem Semi-Supervisionada)
+  - Abordagem simples no cenário Supervisionado
+  - Algoritmo:
+    - Estima a distribuição através de D, sendo D = {(X1, y1), ..., (Xn, yn)}
+    - Prediz y dado X.
+
+  - Para calcular p(y|X), temos que contar todas as possíveis combinações de
+    features.
+  - Reformula de forma ingênua (naive) o teorema de Bayes:
+    p(y|X) = p(y)p(X|y) / P(X); posterior = prior * likelihood / evidence
+  - Na prática, estaremos penas interessados no numerador, visto que o denominador
+    é constante (X fixo). O numerador é chamado de probabilidade conjunta
+    (joint probability).
+  - Para que isso seja útil, temos que assumir uma independência condicional. Com
+    isso, teremos que p(xi | y, xj, xk, xl) = p(xi | y), cada xi é visto como uma
+    jogada de moeda.
+  - Com certeza é o algoritmo mais rápido de classificação.
+
+- Aprendizado Semi-Supervisionado é um tipo de aprendizado supervisionado, pois
+  precisamos de y. Usaremos dados não rotulados mas também rotulado. De maneira
+  geral assumimos pouco dado rotulado para muito dado não rotulado. Custo de 
+  rotular vs efetividade.
+
+- Usar o Naive Bayes como classificador para dados rotulados, por não ter viés.
+  Colocamos os dados não rotulados como negativos, escolhemos aqueles com mais
+  certeza de acerto e colocamos o label nele. Iteramos nisso até convergir.
